@@ -1,6 +1,5 @@
 import React from 'react';
 
-import cls from './Dialogs.module.css';
 
 const Dialogs = () => {
     return (
