@@ -16,8 +16,8 @@ function App() {
       <Header />
       <Sidebar />
       <div className = 'app-wrapper-content'>
-        <Route path = '/dialogs' component = { Profile } />
-        <Route path = '/profile' component = { Dialogs } />
+        <Route path = '/profile' component = { Profile } />
+        <Route path = '/dialogs' component = { Dialogs } />
       </div>
     </div>
   );
