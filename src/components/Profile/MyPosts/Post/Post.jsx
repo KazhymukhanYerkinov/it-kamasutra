@@ -8,7 +8,7 @@ const Post = (props) => {
           <img src = 'https://cs16planet.ru/steam-avatars/images/avatar1833.jpg' alt = ''/>
           { props.message }
           <div>
-            <span> like </span>
+            <span> like: { props.likeCount }</span>
           </div>
         </div>
     )
