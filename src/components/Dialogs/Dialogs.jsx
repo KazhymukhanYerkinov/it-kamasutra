@@ -7,30 +7,12 @@ import cls from './Dialogs.module.css';
 
 
 
-const Dialogs = () => {
+const Dialogs = (props) => {
 
-    let dialogsData = [
-        {id: 1, name: 'Andrey'},
-        {id: 2, name: 'Dimych'},
-        {id: 3, name: 'Sveta'},
-        {id: 4, name: 'Sasha'},
-        {id: 5, name: 'Valera'},
-        {id: 6, name: 'Viktor'},
-
-    ]
-    let messagesData = [
-        {id: 1, message: 'Hi'},
-        {id: 2, message: 'How is your it-kamasutra'},
-        {id: 3, message: 'Yo'},
-        {id: 4, message: 'Yo'},
-        {id: 5, message: 'Yo'},
-        {id: 6, message: 'Yaho'},
-    ]
-
-    let dialogsElements = dialogsData
+    let dialogsElements = props.dialogs
         .map( (dialog, index) => <DialogItem key = { index } id = { dialog.id } name = { dialog.name }/> );
 
-    let messagesElement = messagesData
+    let messagesElement = props.messages
         .map( (message, index) => <Message key = { index } id = { message.id } message = { message.message } /> );
     
 

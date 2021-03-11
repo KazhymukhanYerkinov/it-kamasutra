@@ -6,11 +6,11 @@ import cls from './Profile.module.css';
 
 
 
-const Profile = () => {
+const Profile = (props) => {
   return (
     <div className={cls.content}>
       <ProfileInfo />
-      <MyPosts />
+      <MyPosts posts = { props.posts }/>
     </div>
   )
 }

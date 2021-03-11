@@ -10,14 +10,14 @@ import './App.css';
 
 
 
-function App() {
+function App(props) {
   return (
     <div className = 'app-wrapper'>
       <Header />
       <Sidebar />
       <div className = 'app-wrapper-content'>
-        <Route path = '/profile' component = { Profile } />
-        <Route path = '/dialogs' component = { Dialogs } />
+        <Route path = '/profile' render = { () =>  <Profile posts = { props.posts }/> } />
+        <Route path = '/dialogs' render = { () => <Dialogs dialogs = { props.dialogs } messages = { props.messages } /> } />
       </div>
     </div>
   );
