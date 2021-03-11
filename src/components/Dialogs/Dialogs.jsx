@@ -9,10 +9,10 @@ import cls from './Dialogs.module.css';
 
 const Dialogs = (props) => {
 
-    let dialogsElements = props.dialogs
+    let dialogsElements = props.state.dialogs
         .map( (dialog, index) => <DialogItem key = { index } id = { dialog.id } name = { dialog.name }/> );
 
-    let messagesElement = props.messages
+    let messagesElement = props.state.messages
         .map( (message, index) => <Message key = { index } id = { message.id } message = { message.message } /> );
     
 
