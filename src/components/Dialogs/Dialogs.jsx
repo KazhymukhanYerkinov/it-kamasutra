@@ -3,38 +3,33 @@ import { NavLink } from 'react-router-dom';
 
 import cls from './Dialogs.module.css';
 
+const DialogItem = (props) => {
+    let path = "/dialogs/" + props.id
+    return (
+        <div className = {cls.dialog}>
+            <NavLink to = {path}> { props.name } </NavLink>
+        </div>
+    )
+}
 
+const Message = (props) => {
+    return <div className = {cls.message}> { props.message } </div>
+}
 const Dialogs = () => {
     return (
         <div className = {cls.dialogs}>
             <div className = {cls.dialogsItems}>
-                <div className = {cls.dialog}>
-                    <NavLink to = "/dialogs/1"> Andrey </NavLink>
-                </div>
-                <div className = {cls.dialog}>
-                    <NavLink to = "/dialogs/2"> Dimych </NavLink>
-                </div>
-                <div className = {cls.dialog}>
-                    <NavLink to = "/dialogs/3"> Sveta </NavLink>
-                </div>
-                <div className = {cls.dialog}>
-                    <NavLink to = "/dialogs/4"> Sasha </NavLink>
-                </div>
-                <div className = {cls.dialog}>
-                    <NavLink to = "/dialogs/5"> Valera </NavLink>
-                </div>
+                <DialogItem name = 'Andrey' id = '1' />
+                <DialogItem name = 'Dimych' id = '2' />
+                <DialogItem name = 'Sveta' id = '3' />
+                <DialogItem name = 'Sasha' id = '4' />
+                <DialogItem name = 'Valera' id = '5'/>
             </div>
 
             <div className = {cls.messages}>
-                <div className = {cls.message}>
-                    Hi
-                </div>
-                <div className = {cls.message}>
-                    How is your it-kamasutra
-                </div>
-                <div className = {cls.message}>
-                    Yo
-                </div>
+                <Message message = 'Hi' />
+                <Message message = 'How is your it-kamasutra' />
+                <Message message = 'Yo' />
             </div>
         </div>
     )
