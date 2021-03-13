@@ -2,6 +2,8 @@ import React from 'react';
 import Message from './Message/Message';
 import DialogItem from './DialogItem/DialogItem';
 
+import { sendMessageCreator, updateNewMessageBodyCreator } from '../../redux/state'
+
 import cls from './Dialogs.module.css';
 
 
@@ -9,24 +11,48 @@ import cls from './Dialogs.module.css';
 
 const Dialogs = (props) => {
 
-    let dialogsElements = props.state.dialogs
-        .map( (dialog, index) => <DialogItem key = { index } id = { dialog.id } name = { dialog.name }/> );
+  let dialogsElements = props.state.dialogs
+    .map((dialog, index) => <DialogItem key={index} id={dialog.id} name={dialog.name} />);
 
-    let messagesElement = props.state.messages
-        .map( (message, index) => <Message key = { index } id = { message.id } message = { message.message } /> );
-    
+  let messagesElement = props.state.messages
+    .map((message, index) => <Message key={index} id={message.id} message={message.message} />);
 
-    return (
-        <div className = {cls.dialogs}>
-            <div className = {cls.dialogsItems}>
-                { dialogsElements }
-            </div>
+  let newMessageBody = props.state.newMessageBody;
 
-            <div className = {cls.messages}>
-                { messagesElement }
-            </div>
+  let onSendMessageClick = () => {
+    props.dispatch(sendMessageCreator());
+  }
+
+  let onNewMessageChange = (e) => {
+    let body = e.target.value;
+    props.dispatch(updateNewMessageBodyCreator(body));
+  }
+
+  return (
+    <div className={cls.dialogs}>
+      <div className={cls.dialogsItems}>
+        {dialogsElements}
+      </div>
+
+      <div className={cls.messages}>
+        <div>
+          {messagesElement}
         </div>
-    )
+        <div>
+          <div>
+            <textarea 
+              value = { newMessageBody }
+              onChange = { onNewMessageChange } 
+              placeholder = 'Enter your message'></textarea>
+          </div>
+
+          <div>
+            <button onClick = { onSendMessageClick }> Send </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default Dialogs;
