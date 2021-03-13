@@ -1,4 +1,6 @@
-import { rerenderEntireTree } from "../render";
+let rerenderEntireTree = () => {
+    console.log('State is changed');
+}
 
 let state = {
     profilePage: {
@@ -28,21 +30,29 @@ let state = {
     }
 }
 
-export let addPost = () => {
+// Жаңа пост қосатын функция
+export const addPost = () => {
+
+    // Жаңадан пост объект жасау
     let newPost = {
         id: 5,
         message: state.profilePage.newPostText,
         likeCount: 0
     };
-
     state.profilePage.posts.push(newPost)
     state.profilePage.newPostText = '';
-    rerenderEntireTree(state)
+    rerenderEntireTree(state);
 }
 
-export let updateNewPostText = (newText) => {
+// Textarea да жазылған әрбір өзгерістерді салып отыру
+export const updateNewPostText = (newText) => {
     state.profilePage.newPostText = newText;
     rerenderEntireTree(state);
+}
+
+// index.js тағы рендер функцияны шақыру
+export const subscribe = (observer) => {
+    rerenderEntireTree = observer;
 }
 
 export default state;
