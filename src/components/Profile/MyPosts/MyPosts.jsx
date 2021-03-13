@@ -7,20 +7,24 @@ import cls from './MyPosts.module.css';
 
 const MyPosts = (props) => {
 
-  
-
   let postsElement = props.posts
     .map( (post, index) => <Post key = { index } message = { post.message } likeCount = { post.likeCount }/> );
   
+  let newPostElement = React.createRef();
+
+  let addPost = () => {
+    let text = newPostElement.current.value;
+    props.addPost(text);
+  }
 
   return (
     <div className = { cls.postsBlock }>
       <h3> My Post </h3>
       <div>
         <div>
-          <textarea></textarea>
+          <textarea ref = { addPost }></textarea>
         </div>
-        <button> Add post </button>
+        <button onClick = { addPost }> Add post </button>
       </div>
       <div className={cls.posts}>
         { postsElement }
