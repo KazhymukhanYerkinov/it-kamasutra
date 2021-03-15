@@ -15,7 +15,8 @@ import './index.css';
 export let rerenderEntireTree = (state) => {
   ReactDOM.render(
     <BrowserRouter>
-      <App 
+      <App
+        store = { store }
         state={ state } 
         dispatch = { store.dispatch.bind(store) }
       />
