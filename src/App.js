@@ -7,6 +7,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 
 import './App.css';
+import UsersContainer from './components/Users/UsersContainer';
 
 
 
@@ -21,6 +22,8 @@ function App(props) {
         <Route path = '/profile' render = { () => <Profile /> } />
 
         <Route path = '/dialogs' render = { () => <DialogsContainer /> } />
+
+        <Route path = '/users' render = { () => <UsersContainer /> } />
 
       </div>
     </div>
