@@ -10,13 +10,13 @@ import cls from './Dialogs.module.css';
 
 const Dialogs = (props) => {
 
-  let dialogsElements = props.state.dialogs
+  let dialogsElements = props.dialogsPage.dialogs
     .map((dialog, index) => <DialogItem key={index} id={dialog.id} name={dialog.name} />);
 
-  let messagesElement = props.state.messages
+  let messagesElement = props.dialogsPage.messages
     .map((message, index) => <Message key={index} id={message.id} message={message.message} />);
 
-  let newMessageBody = props.state.newMessageBody;
+  let newMessageBody = props.dialogsPage.newMessageBody;
 
   let onSendMessageClick = () => {
     props.sendMessage();
