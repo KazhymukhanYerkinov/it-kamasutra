@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import cls from './Users.module.css';
 
@@ -31,12 +32,13 @@ const Users = (props) =>  {
           props.users.map((u, index) => <div key={index}>
             <span>
               <div>
-                <img src={
-                  u.photos.small
-                    ? u.photos.small
-                    : 'https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj'}
+                <NavLink to = {`profile/${u.id}`}>
+                  <img src={u.photos.small
+                      ? u.photos.small
+                      : 'https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj'}
 
-                  alt="" className={cls.userPhoto} />
+                    alt="" className={cls.userPhoto} />
+                  </NavLink>
               </div>
               <div>
                 {u.followed
