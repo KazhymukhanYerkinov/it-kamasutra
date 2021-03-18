@@ -10,10 +10,8 @@ import cls from './Profile.module.css';
 const Profile = (props) => {
   return (
     <div className={cls.content}>
-      <ProfileInfo />
-      <MyPostsContainer 
-        store = { props.store }
-      />
+      <ProfileInfo profile = { props.profile } />
+      <MyPostsContainer />
     </div>
   )
 }

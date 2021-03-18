@@ -2,12 +2,13 @@ import React from 'react';
 import { Route } from 'react-router';
 
 import Header from './components/Header/Header';
-import Profile from './components/Profile/Profile';
 import Sidebar from './components/Sidebar/Sidebar';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
+import UsersContainer from './components/Users/UsersContainer';
+import ProfileContainer from './components/Profile/ProfileContainer';
 
 import './App.css';
-import UsersContainer from './components/Users/UsersContainer';
+
 
 
 
@@ -19,7 +20,7 @@ function App(props) {
       <Sidebar />
       <div className = 'app-wrapper-content'>
 
-        <Route path = '/profile' render = { () => <Profile /> } />
+        <Route path = '/profile' render = { () => <ProfileContainer /> } />
 
         <Route path = '/dialogs' render = { () => <DialogsContainer /> } />
 
