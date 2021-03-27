@@ -2,6 +2,7 @@ import React from 'react';
 import Preloader from '../../../common/Preloader/Preloader';
 
 import cls from './ProfileInfo.module.css';
+import ProfileStatus from './ProfileStatus';
 
 
 
@@ -17,7 +18,7 @@ const ProfileInfo = (props) => {
       </div>
       <div className = { cls.descriptionBlock }>
         <img src = { props.profile.photos.large } alt = "profile ava"/>
-        ava + description
+        <ProfileStatus />
       </div>
     </div>
   )
