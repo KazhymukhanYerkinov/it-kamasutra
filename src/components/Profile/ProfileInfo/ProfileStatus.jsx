@@ -4,9 +4,10 @@ import React from 'react';
 
 
 class ProfileStatus extends React.Component {
+
     state = {
       editMode: false,
-      title: 'Yo'
+      status: this.props.status
     }
 
     activateEditMode = () => {
@@ -18,14 +19,22 @@ class ProfileStatus extends React.Component {
     deactivateEditMode = () => {
       this.setState( {
         editMode: false
+      } );
+      this.props.updateStatus(this.state.status);
+    }
+
+    onStatusChange = (e) => {
+      this.setState( {
+        status: e.currentTarget.value
       } )
     }
+
     render() {
       return (
           <div>
             {!this.state.editMode 
-            ? <div onDoubleClick = { this.activateEditMode }> <span> { this.state.title } </span> </div> 
-            : <div> <input autoFocus onBlur = { this.deactivateEditMode } value = { this.state.title } /> </div>}
+            ? <div onDoubleClick = { this.activateEditMode }> <span> { this.props.status || 'No status'} </span> </div> 
+            : <div> <input onChange = { this.onStatusChange } autoFocus onBlur = { this.deactivateEditMode } value = { this.state.status } /> </div>}
           </div>
       )
     }
