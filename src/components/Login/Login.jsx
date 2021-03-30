@@ -7,6 +7,8 @@ import { required } from '../../utils/validators';
 import { Input } from '../../common/FormControl/FormControl';
 import { login } from '../../redux/auth-reducer';
 
+import cls from '../../common/FormControl/FormControl.module.css';
+
 
 
 
@@ -18,11 +20,17 @@ const LoginForm = (props) => {
         <Field name = 'email' placeholder='Login' component = { Input } validate = {[required]}/>
       </div>
       <div>
-        <Field name = 'password' placeholder='Password' component = { Input } validate = {[required]}/>
+        <Field name = 'password' placeholder='Password' type = 'password' component = { Input } validate = {[required]}/>
       </div>
       <div>
         <Field name = 'rememberMe' type='checkbox' component = 'input'/> remember me
       </div>
+
+      {props.error && 
+      <div className = {cls.formSummaryError}>
+        {props.error}
+      </div>}
+
       <div>
         <button type = 'submit' >Login</button>
       </div>
