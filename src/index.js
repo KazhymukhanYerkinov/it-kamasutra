@@ -10,9 +10,6 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.css';
 
-setInterval(() => {
-  store.dispatch({ type: "FAKE" })
-}, 1000);
 
 ReactDOM.render(
   <BrowserRouter>
