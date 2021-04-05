@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 
 import HeaderContainer from './components/Header/HeaderContainer';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -13,9 +13,10 @@ import { initializeApp } from './redux/app-reducer';
 
 import './App.css';
 import Preloader from './common/Preloader/Preloader';
+import { BrowserRouter } from 'react-router-dom';
 
 
-
+import store from './redux/redux-store';
 
 
 
@@ -57,4 +58,18 @@ let mapStateToProps = (state) => ({
   initialized: state.appPage.initialized,
 })
 
-export default connect(mapStateToProps, { initializeApp })(App);
+
+
+let AppContainer =  connect(mapStateToProps, { initializeApp })(App);
+
+const SamuraiJSApp = () => {
+  return (
+    <BrowserRouter>
+      <Provider store = { store }>
+        <AppContainer />
+      </Provider>
+    </BrowserRouter>
+  )
+}
+
+export default SamuraiJSApp;
