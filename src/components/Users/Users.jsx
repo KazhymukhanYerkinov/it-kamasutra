@@ -16,6 +16,7 @@ const Users = (props) =>  {
           totalUsersCount = { props.totalUsersCount }
           currentPage = { props.currentPage }
           onPageChanged = { props.onPageChanged }
+          portionSize = { 10 }
 
         />
         {
