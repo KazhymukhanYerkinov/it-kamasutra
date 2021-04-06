@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import { connect, Provider } from 'react-redux';
 
 import HeaderContainer from './components/Header/HeaderContainer';
@@ -39,15 +39,19 @@ class App extends React.Component {
         <HeaderContainer />
         <Sidebar />
         <div className = 'app-wrapper-content'>
+          <Switch>
+            <Route exact path = '/' render = {() => <Redirect to = '/profile' /> } />
+            
+            <Route path = '/profile/:userId?' render = {withSuspense(ProfileContainer)} />
 
-          <Route path = '/profile/:userId?' render = {withSuspense(ProfileContainer)} />
+            <Route path = '/dialogs' render = {withSuspense(DialogsContainer)} />
 
-          <Route path = '/dialogs' render = {withSuspense(DialogsContainer)} />
+            <Route path = '/users' render = { () => <UsersContainer /> } />
 
-          <Route path = '/users' render = { () => <UsersContainer /> } />
+            <Route path = '/login' render = { () => <Login /> } />
 
-          <Route path = '/login' render = { () => <Login /> } />
-
+            <Route path = '*' render = {() => <div> 404 NOT FOUND </div> } />
+          </Switch>
         </div>
       </div>
     );
