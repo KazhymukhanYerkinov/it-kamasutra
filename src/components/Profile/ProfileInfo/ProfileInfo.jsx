@@ -11,14 +11,18 @@ const ProfileInfo = (props) => {
   if (!props.profile) {
     return <Preloader />
   }
+
+  const onMainPhotoSelected = e => {
+    if (e.target.files.length) {
+      props.savePhoto(e.target.files[0]);
+    }
+  }
   
   return (
     <div>
-      <div>
-        <img src='https://p.bigstockphoto.com/GeFvQkBbSLaMdpKXF1Zv_bigstock-Aerial-View-Of-Blue-Lakes-And--227291596.jpg' alt='' />
-      </div>
       <div className = { cls.descriptionBlock }>
-        <img src = { props.profile.photos.large } alt = "profile ava"/>
+        <img className = {cls.mainPhoto} src = { props.profile.photos.large || 'https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj' } alt = "profile ava"/>
+        { props.isOwner && <input type = 'file' onChange = { onMainPhotoSelected }/> }
         <ProfileStatusWithHooks status = { props.status } updateStatus = { props.updateStatus }/>
       </div>
     </div>
