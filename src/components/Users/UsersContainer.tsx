@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { 
   follow,  
   unfollow,
-  toggleFollowingProgress,
   getUsersThunkCreator
 } from '../../redux/users-reducer';
 
@@ -20,16 +19,41 @@ import {
 
 import Users from './Users';
 import Preloader from '../../common/Preloader/Preloader';
+import { UserType } from '../../types/types';
+import { AppStateType } from '../../redux/redux-store';
 
 
-class UsersContainer extends React.Component {
+
+type MapStatePropsType = {
+  totalUsersCount: number
+  currentPage: number
+  pageSize: number
+  isFetching: boolean
+  followingInProgress: Array<number>
+  users: Array<UserType>
+}
+
+type MapDispatchPropsType = {
+  follow: (userId: number) => void
+  unfollow: (userId: number) => void
+  getUsersThunkCreator: (currentPage: number, pageSize: number) => void
+}
+
+type OwnPropsTypes = {
+  pageTitle: string
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsTypes;
+
+
+class UsersContainer extends React.Component<PropsType> {
 
   componentDidMount() {
     const { currentPage, pageSize } = this.props;
     this.props.getUsersThunkCreator(currentPage, pageSize)
   }
 
-  onPageChanged = (pageNumber) => {
+  onPageChanged = (pageNumber: number) => {
     const { pageSize } = this.props;
     this.props.getUsersThunkCreator(pageNumber, pageSize)
   }
@@ -50,14 +74,13 @@ class UsersContainer extends React.Component {
           unfollow = { this.props.unfollow } 
 
           followingInProgress = { this.props.followingInProgress }
-          toggleFollowingProgress = { this.props.toggleFollowingProgress }
         />
       </React.Fragment>
     )
   }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
@@ -69,10 +92,9 @@ let mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps, {
+  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsTypes, AppStateType>(mapStateToProps, {
     follow,
     unfollow, 
-    toggleFollowingProgress,
     getUsersThunkCreator,
   }),
 )(UsersContainer)

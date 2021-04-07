@@ -12,7 +12,7 @@ import thunkMiddlewere from 'redux-thunk';
 
 
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
@@ -22,9 +22,12 @@ let reducers = combineReducers({
 
 });
 
+type RootRducerType = typeof rootReducer;
+export type AppStateType = ReturnType<RootRducerType>
 
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-let store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddlewere)));
+let store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddlewere)));
 
 
 export default store;
