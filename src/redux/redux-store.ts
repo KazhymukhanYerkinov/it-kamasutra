@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
+import { Action, applyMiddleware, combineReducers, compose, createStore } from 'redux'
 
 import dialogsReducer from './dialogs-reducer';
 import profileReducer from './profile-reducer';
@@ -7,7 +7,7 @@ import authReducer from './auth-reducer';
 import appReducer from './app-reducer';
 import { reducer as formReducer } from 'redux-form';
 
-import thunkMiddlewere from 'redux-thunk';
+import thunkMiddlewere, { ThunkAction } from 'redux-thunk';
 
 
 
@@ -27,6 +27,8 @@ export type AppStateType = ReturnType<RootRducerType>
 
 type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U:never
 export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>
+
+export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

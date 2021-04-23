@@ -1,9 +1,8 @@
 import { Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
-import { usersAPI } from "../api/api";
+import { usersAPI } from "../api/users-api";
 import { UserType } from '../types/types';
 import { updateObjectInArray } from "../utils/object-helpers";
-import { AppStateType, InferActionsTypes } from "./redux-store";
+import { BaseThunkType, InferActionsTypes } from "./redux-store";
 
 
 let initialState = {
@@ -17,43 +16,46 @@ let initialState = {
 }
 
 type InitialStateType = typeof initialState;
+type ActionsTypes = InferActionsTypes<typeof actions>
+type DispatchType = Dispatch<ActionsTypes>
+type ThunkType =  BaseThunkType<ActionsTypes>
 
 const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
   switch (action.type) {
-    case 'SET_USERS':
+    case 'users/SET_USERS':
       return {
         ...state,
         users: action.users
       }
 
-    case 'FOLLOW':
+    case 'users/FOLLOW':
       return {
         ...state,
         users: updateObjectInArray(state.users, action.userId, "id", { followed: true })
       };
 
-    case 'UNFOLLOW':
+    case 'users/UNFOLLOW':
       return {
         ...state,
         users: updateObjectInArray(state.users, action.userId, "id", { followed: false })
       } 
-    case 'SET_CURRENT_PAGE':
+    case 'users/SET_CURRENT_PAGE':
       return {
         ...state,
         currentPage: action.currentPage
       }
-    case 'SET_TOTAL_USERS_COUNT':
+    case 'users/SET_TOTAL_USERS_COUNT':
       return {
         ...state,
         totalUsersCount: action.totalCount
       }
-    case 'TOGGLE_IS_FETCHING':
+    case 'users/TOGGLE_IS_FETCHING':
       return {
         ...state,
         isFetching: action.isFetching
       }
 
-    case 'TOGGLE_IS_FOLLOWING_PROGRESS':
+    case 'users/TOGGLE_IS_FOLLOWING_PROGRESS':
       return {
         ...state,
         followingInProgress: action.isFetching
@@ -67,17 +69,15 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
 
 
 
-type ActionsTypes = InferActionsTypes<typeof actions>
-
 
 export const actions = {
-  followSuccess: (userId: number) => ({ type: 'FOLLOW', userId } as const),
-  unfollowSuccess: (userId: number) => ({ type: 'UNFOLLOW', userId } as const),
-  setUsers: (users: Array<UserType>) => ({ type: 'SET_USERS', users } as const),
-  setCurrentPage: (currentPage: number) => ({ type: 'SET_CURRENT_PAGE', currentPage } as const),
-  setTotalUsersCount: (totalCount: number) => ({ type: 'SET_TOTAL_USERS_COUNT', totalCount } as const),
-  toggleIsFetching: (isFetching: boolean) => ({ type: 'TOGGLE_IS_FETCHING', isFetching } as const),
-  toggleFollowingProgress: (isFetching: boolean, userId: number) => ({ type: 'TOGGLE_IS_FOLLOWING_PROGRESS', isFetching, userId } as const),
+  followSuccess: (userId: number) => ({ type: 'users/FOLLOW', userId } as const),
+  unfollowSuccess: (userId: number) => ({ type: 'users/UNFOLLOW', userId } as const),
+  setUsers: (users: Array<UserType>) => ({ type: 'users/SET_USERS', users } as const),
+  setCurrentPage: (currentPage: number) => ({ type: 'users/SET_CURRENT_PAGE', currentPage } as const),
+  setTotalUsersCount: (totalCount: number) => ({ type: 'users/SET_TOTAL_USERS_COUNT', totalCount } as const),
+  toggleIsFetching: (isFetching: boolean) => ({ type: 'users/TOGGLE_IS_FETCHING', isFetching } as const),
+  toggleFollowingProgress: (isFetching: boolean, userId: number) => ({ type: 'users/TOGGLE_IS_FOLLOWING_PROGRESS', isFetching, userId } as const),
 
 }
 
@@ -85,10 +85,7 @@ export const actions = {
 
 
 
-type DispatchType = Dispatch<ActionsTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
-
-export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType  => async (dispatch, getState) => {
+export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType  => async (dispatch) => {
   dispatch(actions.toggleIsFetching(true));
   dispatch(actions.setCurrentPage(currentPage));
   let data = await usersAPI.getUsers(currentPage, pageSize)
