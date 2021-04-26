@@ -2,7 +2,12 @@ import React from 'react';
 
 import cls from './Post.module.css';
 
-const Post = (props) => {
+
+type PropsType = {
+  message: string
+  likeCount: number
+}
+const Post: React.FC<PropsType> = (props) => {
     return (
         <div className={cls.item}> 
           <img src = 'https://cs16planet.ru/steam-avatars/images/avatar1833.jpg' alt = ''/>

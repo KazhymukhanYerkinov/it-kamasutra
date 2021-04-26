@@ -1,31 +1,21 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 import { actions } from '../../redux/dialogs-reducer';
+import { AppStateType } from '../../redux/redux-store';
 
 import Dialogs from './Dialogs';
 
 
-
-
-
-let mapStateTopProps = (state) => {
+let mapStateTopProps = (state: AppStateType) => {
   return {
     dialogsPage: state.dialogsPage,
   }
 }
 
-let mapStateToDispatch = (dispatch) => {
-  return {
-    sendMessage: (newMessageBody) => {
-      dispatch(actions.sendMessageCreator(newMessageBody));
-    }
-
-  }
-}
-
-export default compose(
-  connect(mapStateTopProps, mapStateToDispatch),
+export default compose<React.ComponentType>(
+  connect(mapStateTopProps, {...actions}),
   withAuthRedirect,
 )(Dialogs)

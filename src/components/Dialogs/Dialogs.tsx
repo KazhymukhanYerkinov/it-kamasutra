@@ -1,28 +1,26 @@
 import React from 'react';
-import { Redirect } from 'react-router';
-import { reduxForm, Field } from 'redux-form';
+import { InjectedFormProps, reduxForm } from 'redux-form';
 
 import Message from './Message/Message';
 import DialogItem from './DialogItem/DialogItem';
 
 import { maxLengthCreator, required } from '../../utils/validators';
-import { TextArea } from '../../common/FormControl/FormControl';
+import { CreateField, TextArea } from '../../common/FormControl/FormControl';
 
 import cls from './Dialogs.module.css';
+import { InitialStateType } from '../../redux/dialogs-reducer';
 
 
 const maxLength50 = maxLengthCreator(50);
 
-const AddMessageForm = (props) => {
+
+const AddMessageForm: React.FC<InjectedFormProps<NewMesssageFormType>> = (props) => {
   return (
     <form onSubmit = { props.handleSubmit }>
       <div>
-        <Field
-          component = { TextArea }
-          name = 'newMessageBody'
-          placeholder='Enter your message'
-          validate = {[required, maxLength50]}
-        />
+
+      { CreateField<DialogFormValuesTypeKeys>("Enter your message", 'newMessageBody', [required, maxLength50], TextArea, ) }
+        
       </div>
 
       <div>
@@ -32,9 +30,22 @@ const AddMessageForm = (props) => {
   )
 }
 
-const AddMessageReduxForm = reduxForm({ form: 'dialogAddMessageForm' })(AddMessageForm);
+const AddMessageReduxForm = reduxForm<NewMesssageFormType>({ form: 'dialogAddMessageForm' })(AddMessageForm);
 
-const Dialogs = (props) => {
+
+type NewMesssageFormType = {
+  newMessageBody: string
+}
+
+type DialogFormValuesTypeKeys = Extract<keyof NewMesssageFormType, string>
+
+type OwnPropsType = {
+  dialogsPage: InitialStateType
+  sendMessage: (messageText: string) => void
+}
+
+
+const Dialogs: React.FC<OwnPropsType> = (props) => {
 
   let dialogsElements = props.dialogsPage.dialogs
     .map((dialog, index) => <DialogItem key={index} id={dialog.id} name={dialog.name} />);
@@ -42,17 +53,10 @@ const Dialogs = (props) => {
   let messagesElement = props.dialogsPage.messages
     .map((message, index) => <Message key={index} id={message.id} message={message.message} />);
 
-  
-
-  
-
-  const onSubmit = (formData) => {
+  const onSubmit = (formData: NewMesssageFormType) => {
     props.sendMessage(formData.newMessageBody);
   }
 
-  if (!props.isAuth) {
-    return <Redirect to='/login' />
-  }
 
   return (
     <div className={cls.dialogs}>
