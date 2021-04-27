@@ -4,8 +4,7 @@ import { connect, Provider } from 'react-redux';
 
 import HeaderContainer from './components/Header/HeaderContainer';
 import Sidebar from './components/Sidebar/Sidebar';
-import UsersContainer from './components/Users/UsersContainer';
-import Login from './components/Login/Login';
+import { LoginPage } from './components/Login/Login';
 
 import { initializeApp } from './redux/app-reducer';
 
@@ -17,6 +16,7 @@ import { BrowserRouter } from 'react-router-dom';
 import store, { AppStateType } from './redux/redux-store';
 import withSuspense from './hoc/withSuspense';
 import { compose } from 'redux';
+import { UsersPage } from './components/Users/UsersContainer';
 
 
 
@@ -59,9 +59,9 @@ class App extends React.Component<StatePropsType & DispatchPropsType> {
 
             <Route path = '/dialogs' render = {() => <SuspendDialog /> } />
 
-            <Route path = '/users' component = { UsersContainer } />
+            <Route path = '/users' component = { UsersPage } />
 
-            <Route path = '/login' render = { () => <Login /> } />
+            <Route path = '/login' render = { () => <LoginPage /> } />
 
             <Route path = '*' render = {() => <div> 404 NOT FOUND </div> } />
           </Switch>

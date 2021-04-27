@@ -1,53 +1,70 @@
 
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Paginator from '../../common/Paginator/Paginator';
-import { FilterType } from '../../redux/users-reducer';
-import { UserType } from '../../types/types';
+import { FilterType, follow, getUsersThunkCreator, unfollow } from '../../redux/users-reducer';
+import { getCurrentPage, getFollowingInProgress, getPageSize, getTotalUsersCount, getUsers, getUsersFilter } from '../../redux/users-selectors';
 import User from './User';
 import UsersSearchForm from './UsersSearchForm';
 
 
 
 type PropsTypes = {
-  totalUsersCount: number
-  pageSize: number
-  currentPage: number
-  onPageChanged: (pageNumber: number) => void
 
-  users: Array<UserType>
-
-  followingInProgress: Array<number>
-  unfollow: (userId: number) => void
-  follow: (userId: number) => void
-
-  onFilterChanged: (term: FilterType) => void
 }
 
 
 
 const Users: React.FC<PropsTypes> = (props) =>  {
+
+    const users = useSelector(getUsers)
+    const totalUsersCount = useSelector(getTotalUsersCount)
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+    const filter = useSelector(getUsersFilter)
+    const followingInProgress = useSelector(getFollowingInProgress)
+
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+      dispatch(getUsersThunkCreator(currentPage, pageSize, filter))
+    }, [])
+
+    const onPageChanged = (pageNumber: number) => {
+      dispatch(getUsersThunkCreator(pageNumber, pageSize, filter))
+    }
+
+    const onFilterChanged = (filter: FilterType) => {
+      dispatch(getUsersThunkCreator(currentPage, pageSize, filter))
+    }
+    const onFollow = (userId: number) => {
+      dispatch(follow(userId))
+    }
+    const onUnfollow = (userId: number) => {
+      dispatch(unfollow(userId))
+    }
+
     return (
       <div>
         <UsersSearchForm 
-          onFilterChanged = { props.onFilterChanged }
+          onFilterChanged = { onFilterChanged }
         />
 
         <Paginator
-          pageSize = { props.pageSize }
-          totalUsersCount = { props.totalUsersCount }
-          currentPage = { props.currentPage }
-          onPageChanged = { props.onPageChanged }
+          pageSize = { pageSize }
+          totalUsersCount = { totalUsersCount }
+          currentPage = { currentPage }
+          onPageChanged = { onPageChanged }
           portionSize = { 10 }
-
         />
         {
-          props.users.map((user, index) => (
+          users.map((user, index) => (
             <User
               key = { index }
               user = { user }
-              followingInProgress = { props.followingInProgress }
-              unfollow = { props.unfollow }
-              follow = { props.follow }
+              followingInProgress = { followingInProgress }
+              unfollow = { onUnfollow }
+              follow = { onFollow }
             />
           ))
         }
