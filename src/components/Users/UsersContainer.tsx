@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { 
   follow,  
   unfollow,
-  getUsersThunkCreator
+  getUsersThunkCreator,
+  FilterType
 } from '../../redux/users-reducer';
 
 import { 
   getCurrentPage,
+  getUsersFilter,
   getFollowingInProgress,
   getIsFetching,
   getPageSize, 
@@ -31,12 +33,13 @@ type MapStatePropsType = {
   isFetching: boolean
   followingInProgress: Array<number>
   users: Array<UserType>
+  filter: FilterType
 }
 
 type MapDispatchPropsType = {
   follow: (userId: number) => void
   unfollow: (userId: number) => void
-  getUsersThunkCreator: (currentPage: number, pageSize: number) => void
+  getUsersThunkCreator: (currentPage: number, pageSize: number, filter: FilterType) => void
 }
 
 type OwnPropsTypes = {
@@ -49,13 +52,18 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsTypes;
 class UsersContainer extends React.Component<PropsType> {
 
   componentDidMount() {
-    const { currentPage, pageSize } = this.props;
-    this.props.getUsersThunkCreator(currentPage, pageSize)
+    const { currentPage, pageSize, filter } = this.props;
+    this.props.getUsersThunkCreator(currentPage, pageSize, filter)
   }
 
   onPageChanged = (pageNumber: number) => {
-    const { pageSize } = this.props;
-    this.props.getUsersThunkCreator(pageNumber, pageSize)
+    const { pageSize, filter } = this.props;
+    this.props.getUsersThunkCreator(pageNumber, pageSize, filter)
+  }
+
+  onFilterChanged = (filter: FilterType) => {
+    const { currentPage, pageSize } = this.props;
+    this.props.getUsersThunkCreator(currentPage, pageSize, filter)
   }
 
   render() {
@@ -74,6 +82,8 @@ class UsersContainer extends React.Component<PropsType> {
           unfollow = { this.props.unfollow } 
 
           followingInProgress = { this.props.followingInProgress }
+
+          onFilterChanged = { this.onFilterChanged }
         />
       </React.Fragment>
     )
@@ -86,6 +96,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     pageSize: getPageSize(state),
     totalUsersCount: getTotalUsersCount(state),
     currentPage: getCurrentPage(state),
+    filter: getUsersFilter(state),
     isFetching: getIsFetching(state),
     followingInProgress: getFollowingInProgress(state),
   }
