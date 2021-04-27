@@ -4,6 +4,7 @@ import cls from './Message.module.css';
 
 
 type PropsType = {
+    id: number
     message: string
 }
 const Message: React.FC<PropsType> = (props) => {
