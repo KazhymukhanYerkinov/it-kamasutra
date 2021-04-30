@@ -1,28 +1,56 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
+
+import { UserOutlined } from '@ant-design/icons';
+import { Button, Col, Menu, Row } from 'antd';
+import Avatar from 'antd/lib/avatar/avatar';
+import { Header } from 'antd/lib/layout/layout';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUserLogin, selectIsAuth } from '../../redux/auth-selector';
+import { logout } from '../../redux/auth-reducer';
 
 
-import cls from './Header.module.css';
 
 
-export type PropsType = {
-  isAuth: boolean
-  login: string | null
-}
 
-export type DispatchPropsType = {
-  logout: () => void
-}
+export const AppHeader: React.FC = () => {
 
-const Header: React.FC<PropsType & DispatchPropsType> = (props) => {
+  const isAuth = useSelector(selectIsAuth)
+  const login = useSelector(selectCurrentUserLogin)
+
+  const dispatch = useDispatch()
+
+  const logoutCallback = () => {
+    dispatch(logout())
+  }
+
   return (
-    <header className={cls.header}>
-      <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/505px-Apple_logo_black.svg.png' alt='' />
-      <div className = {cls.loginBlock}>
-        { props.isAuth ? <div> {props.login} - <button onClick = {props.logout}> Log out </button> </div>:
-        <NavLink to = {`/login`}> Login </NavLink>}
-      </div>
-    </header>
+    <Header className="header">
+      <Row>
+        <Col span={18}>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+            <Menu.Item key="1"><Link to='/users'> Developers </Link></Menu.Item>
+          </Menu>
+        </Col>
+        {isAuth
+        ? <React.Fragment>
+            <Col span={1}>
+              <Avatar alt = {login || ''} style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />    
+            </Col>
+            <Col span = {5}>
+              <Button onClick = {logoutCallback}> Log out </Button> 
+            </Col>
+        </React.Fragment>
+
+        :<Col>
+          <Button>
+            <Link to = {`/login`}> Login </Link>
+          </Button>
+        </Col>}
+      </Row>
+    </Header>
   )
 }
-export default Header;
+
