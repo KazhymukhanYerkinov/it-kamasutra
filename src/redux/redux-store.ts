@@ -8,6 +8,7 @@ import appReducer from './app-reducer';
 import { reducer as formReducer } from 'redux-form';
 
 import thunkMiddlewere, { ThunkAction } from 'redux-thunk';
+import chatReducer from './chat-reducer';
 
 
 
@@ -18,6 +19,7 @@ let rootReducer = combineReducers({
     usersPage: usersReducer,
     authPage: authReducer,
     appPage: appReducer,
+    chat: chatReducer,
     form: formReducer,
 
 });
